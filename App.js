@@ -34,7 +34,7 @@ export default function App() {
       }
       const location = await Location.getCurrentPositionAsync();
       const { latitude, longitude } = location.coords;
-      console.log("iam here weather url");
+      // console.log("iam here weather url");
       const weatherUrl = `${BASE_WEATHER_URL}lat=${latitude}&lon=${longitude}&units=${unitsSystem}&appid=${WEATHER_API_KEY}`;
       const response = await fetch(weatherUrl);
       const result = await response.json();
