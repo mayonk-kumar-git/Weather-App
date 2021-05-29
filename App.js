@@ -21,6 +21,7 @@ export default function App() {
   }, [unitsSystem]);
 
   async function load() {
+    setCurrentWeather(null);
     try {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
@@ -52,7 +53,10 @@ export default function App() {
       <View style={styles.container}>
         <StatusBar style="auto" />
         <View style={styles.main}>
-          <UnitsPicker unitsSystem={unitsSystem} setUnitsSystem={setUnitsSystem}/>
+          <UnitsPicker
+            unitsSystem={unitsSystem}
+            setUnitsSystem={setUnitsSystem}
+          />
           <WeatherInfo currentWeather={currentWeather} />
         </View>
       </View>
