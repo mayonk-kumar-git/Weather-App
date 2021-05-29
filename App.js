@@ -6,6 +6,7 @@ import * as Location from "expo-location";
 
 //My own components Import
 import WeatherInfo from "./components/WeatherInfo";
+import UnitsPicker from "./components/UnitsPicker";
 
 const WEATHER_API_KEY = "52fffb682e9f3a939d77715422744fb0";
 const BASE_WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather?";
@@ -17,7 +18,7 @@ export default function App() {
 
   useEffect(() => {
     load();
-  }, []);
+  }, [unitsSystem]);
 
   async function load() {
     try {
@@ -47,13 +48,11 @@ export default function App() {
     }
   }
   if (currentWeather) {
-    const {
-      main: { temp },
-    } = currentWeather;
     return (
       <View style={styles.container}>
         <StatusBar style="auto" />
         <View style={styles.main}>
+          <UnitsPicker unitsSystem={unitsSystem} setUnitsSystem={setUnitsSystem}/>
           <WeatherInfo currentWeather={currentWeather} />
         </View>
       </View>
