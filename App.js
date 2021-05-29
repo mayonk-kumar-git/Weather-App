@@ -1,7 +1,11 @@
+//Predefined Imports
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import * as Location from "expo-location";
+
+//My own components Import
+import WeatherInfo from "./components/WeatherInfo";
 
 const WEATHER_API_KEY = "52fffb682e9f3a939d77715422744fb0";
 const BASE_WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather?";
@@ -9,6 +13,7 @@ const BASE_WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather?";
 export default function App() {
   const [errorMessage, setErrorMessage] = useState(null);
   const [currentWeather, setCurrentWeather] = useState(null);
+  const [unitsSystem, setUnitsSystem] = useState("metric");
 
   useEffect(() => {
     load();
@@ -24,12 +29,12 @@ export default function App() {
       const location = await Location.getCurrentPositionAsync();
       const { latitude, longitude } = location.coords;
       console.log("iam here weather url");
-      const weatherUrl = `${BASE_WEATHER_URL}lat=${latitude}&lon=${longitude}&appid=${WEATHER_API_KEY}`;
+      const weatherUrl = `${BASE_WEATHER_URL}lat=${latitude}&lon=${longitude}&units=${unitsSystem}&appid=${WEATHER_API_KEY}`;
       const response = await fetch(weatherUrl);
       const result = await response.json();
 
       if (response.ok) {
-        console.log(result);
+        // console.log(result);
         setCurrentWeather(result);
       } else {
         setErrorMessage(result.message);
@@ -37,7 +42,8 @@ export default function App() {
 
       // alert(`Latitude: ${latitude}, Longitude: ${longitude}`);
     } catch (error) {
-      console.log("catch iam here");
+      setErrorMessage(error.message);
+      // console.log("catch iam here");
     }
   }
   if (currentWeather) {
@@ -46,15 +52,15 @@ export default function App() {
     } = currentWeather;
     return (
       <View style={styles.container}>
-        <Text>Hi! Its Mayonk</Text>
-        <Text>Temperature : {temp}</Text>
         <StatusBar style="auto" />
+        <View style={styles.main}>
+          <WeatherInfo currentWeather={currentWeather} />
+        </View>
       </View>
     );
   } else {
     return (
       <View style={styles.container}>
-        <Text>Hi! Its Mayonk</Text>
         <Text>Error : {errorMessage}</Text>
         <StatusBar style="auto" />
       </View>
@@ -65,8 +71,12 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "red",
-    alignItems: "center",
+    backgroundColor: "#fff",
+    // alignItems: "center",
     justifyContent: "center",
+  },
+  main: {
+    justifyContent: "center",
+    flex: 1,
   },
 });
