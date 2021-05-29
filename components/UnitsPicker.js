@@ -8,6 +8,8 @@ export default function UnitsPicker({ unitsSystem, setUnitsSystem }) {
       <Picker
         selectedValue={unitsSystem}
         onValueChange={(item) => setUnitsSystem(item)}
+        mode="dropdown"
+        itemStyle={{fontSize:12}}
       >
         <Picker.Item label="C°" value="metric" />
         <Picker.Item label="F°" value="imperial" />
@@ -24,7 +26,7 @@ const styles = StyleSheet.create({
         top: -20,
       },
       android: {
-        top: 20,
+        top: 50,
       },
     }),
     left: 20,
